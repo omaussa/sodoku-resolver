@@ -4,12 +4,19 @@ import "fmt"
 
 func main() {
 	puzzle := CreatePuzzle()
+	var progress int
 
 	sudoku := SetUpPuzzle(puzzle)
 
 	sudoku.Print()
 
-	CheckPuzzle(sudoku)
+	for UNSOLVED > 0 {
+		progress = CheckPuzzle(sudoku)
+		if progress == 0 {
+			fmt.Println("Failed to solve the puzzle!")
+			break
+		}
+	}
 
 	fmt.Printf("\n\n")
 

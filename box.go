@@ -34,7 +34,7 @@ func UpdateBoxes(sudoku [][]*Square, row int, column int) {
 	}
 }
 
-func BoxSingles(sudoku [][]*Square, boxes []*Box) {
+func BoxSingles(sudoku [][]*Square, boxes []*Box) int {
 	temp := 0
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
@@ -56,8 +56,10 @@ func BoxSingles(sudoku [][]*Square, boxes []*Box) {
 				UNSOLVED--
 				boxes[i].squares[temp].solvable = 0
 
-				updateSudoku(sudoku, boxes[i].squares[temp].row, boxes[i].squares[temp].column)
+				UpdateSudoku(sudoku, boxes[i].squares[temp].row, boxes[i].squares[temp].column)
+				return 1
 			}
 		}
 	}
+	return 0
 }

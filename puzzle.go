@@ -7,7 +7,7 @@ type Sudoku struct {
 	boxes   []*Box
 }
 
-func updateSudoku(sudoku [][]*Square, row int, column int) {
+func UpdateSudoku(sudoku [][]*Square, row int, column int) {
 	number := sudoku[row][column].number
 	for x := 0; x < SIZE_ROWS; x++ {
 		if sudoku[x][column].possible[number-1] == 0 {
@@ -77,7 +77,7 @@ func SetUpPuzzle(puzzle [][]int) *Sudoku {
 		for j := 0; j < SIZE_ROWS; j++ {
 			if squares[i][j].number != 0 {
 				squares[i][j].solvable = 0
-				updateSudoku(squares, i, j)
+				UpdateSudoku(squares, i, j)
 				UpdateBoxes(squares, i, j)
 				UNSOLVED--
 			}
@@ -108,17 +108,22 @@ func CreatePuzzle() [][]int {
 	return puzzle
 }
 
-func CheckPuzzle(sudoku *Sudoku) {
+func CheckPuzzle(sudoku *Sudoku) int {
 	squares := sudoku.squares
 	for i := 0; i < SIZE_ROWS; i++ {
 		for j := 0; j < SIZE_COLUMNS; j++ {
 			if squares[i][j].solvable == 1 {
 				squares[i][j].Solve()
-				updateSudoku(squares, i, j)
+				UpdateSudoku(squares, i, j)
 				UpdateBoxes(squares, i, j)
+				return 1
 			}
 		}
 	}
 
-	BoxSingles(sudoku.squares, sudoku.boxes)
+	if BoxSingles(sudoku.squares, sudoku.boxes) == 1 {
+		return 1
+	}
+
+	return CheckRows(sudoku.squares)
 }
